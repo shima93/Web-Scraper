@@ -72,4 +72,4 @@ setInterval(function () {
     file.write(JSON.stringify(v[0]) + "\n");
   });
   file.end();
-}, 1000000);
+}, 5000000);
