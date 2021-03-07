@@ -31,6 +31,7 @@ async function scrapeProduct(url) {
   const [el7] = await page.$x(
     '//*[@id="primarycontent"]/center[1]/table/tbody/tr[1]/td/h3/font/p[2]/strong/font[4]'
   );
+  console.log("hi it comes to line 35");
 
   const src = await el.getProperty("textContent");
   const src2 = await el2.getProperty("textContent");
@@ -59,11 +60,21 @@ async function scrapeProduct(url) {
   // browser.close();
 }
 
-setInterval(function () {
-  scrapeProduct("http://weather.uwaterloo.ca/default.asp");
+setInterval(async () => {
+  await scrapeProduct("http://weather.uwaterloo.ca/default.asp");
   tempArr1.push(temFinalArray);
-  console.log(tempArr1);
-  var file = fs.createWriteStream("array.txt");
+  //console.log(new Date());
+  var now = new Date();
+
+  var file = fs.createWriteStream(
+    "./LOG/WeatherInfo" +
+      now.getFullYear() +
+      "-" +
+      now.getMonth() +
+      "-" +
+      now.getDate() +
+      ".txt"
+  );
   file.on("error", function (err) {
     /* error handling */
   });
@@ -72,4 +83,4 @@ setInterval(function () {
     file.write(JSON.stringify(v[0]) + "\n");
   });
   file.end();
-}, 5000000);
+}, 100000);
